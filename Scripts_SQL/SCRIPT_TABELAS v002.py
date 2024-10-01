@@ -1,6 +1,7 @@
 import fundamentus
 import psycopg2
 from datetime import datetime
+import numpy as np
 
 # Função para conectar ao banco de dados PostgreSQL
 def conectar():
@@ -9,7 +10,7 @@ def conectar():
             host="127.0.0.1",
             database="paloma_teste",
             user="postgres",
-            password="aluno"
+            password="123"
         )   
         return conn
     except Exception as e:
@@ -19,19 +20,21 @@ def conectar():
 def get_valor(df, campo, default=None):
     valor = df.get(campo, [default])[0]
     
-    if isinstance(valor, str):
+    if isinstance(valor, str) and '%' in valor:
         # Remove o símbolo '%' e converte para float, se for um valor percentual
-        if '%' in valor:
-            valor = valor.replace('%', '')
-            try:
-                valor = float(valor)
-            except ValueError:
-                return default
-        elif valor == '-':
+        valor = valor.replace('%', '')
+        try:
+            valor = float(valor)
+        except ValueError:
             return default
+    elif valor == '-':
+        return default
+    
+    # Verifica se o valor é um tipo numpy (int64 ou float64) e converte para um tipo nativo do Python
+    if isinstance(valor, (np.int64, np.float64)):
+        return valor.item()  # Converte para int ou float nativo
     
     return valor
-
 
 # Função para criar as tabelas, caso elas não existam
 def criar_tabelas(conn):

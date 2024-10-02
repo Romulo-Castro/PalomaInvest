@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #555;
+}
+
+h1.text-center {
+    font-family: 'Roboto', sans-serif; /* Escolha uma fonte moderna */
+    font-size: 3rem; /* Tamanho grande para destaque */
+    color: #b4b4b4; /* Cor verde que transmite confiança e sucesso */
+    letter-spacing: 2px; /* Espaçamento entre as letras para sofisticação */
+    font-weight: bold; /* Negrito para dar mais ênfase */
+    text-transform: uppercase; /* Tudo em maiúsculas para maior impacto */
+    margin-bottom: 20px; /* Espaço inferior */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Sombra para dar profundidade */
+}
+
+main {
+    text-align: center;
+    padding: 2rem;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+    background-color: rgb(163, 142, 142);
+}
+
+th, td {
+    border: 1px solid rgb(0, 0, 0);
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #ff7d7d;
+}

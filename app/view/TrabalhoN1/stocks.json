@@ -1,0 +1,28 @@
+{
+    "stocks": [
+        {
+            "name": "Ação XYZ",
+            "price": 100.25,
+            "setor": "DOTA"
+        },
+        {
+            "name": "Ação ABC",
+            "price": 250.50,
+            "setor": "Minério"
+        },
+        {
+            "name": "Ação DEF",
+            "price": 75.80
+        },
+        {
+            "name": "Ação GHI",
+            "price": 150.00,
+            "setor": "Papel"
+        },
+        {
+            "name": "Ação jhonska",
+            "price": 180.00,
+            "setor": "Mobiliário"
+        }
+    ]
+}

@@ -1,3 +1,5 @@
+from app.models import model_info_acoes as mInfoAcoes
+
 class AcoesController:
-    def table(self):
-        return 'listagem acoes'
+    def listAllAcoesIndicadores(self):
+        return mInfoAcoes.listAllIndicadores()

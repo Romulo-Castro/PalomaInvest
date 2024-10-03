@@ -1,7 +1,8 @@
 from mvc_flask import Router
 
-Router.get('/', 'acoes#table')
-Router.get('/acoes', 'acoes#table')
+Router.get('/', 'acoes#listAllAcoesIndicadores')
+Router.get('/acoes', 'acoes#listAllAcoesIndicadores')
+
 """
 Router.all("messages")
 Router.all("callbacks", only="index show")

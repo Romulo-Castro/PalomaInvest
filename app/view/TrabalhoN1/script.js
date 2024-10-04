@@ -1,21 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
     const stocksList = document.getElementById('stocks-list');
 
-    const apiUrl = 'http://127.0.0.1:5000/acoes';
+    const apiUrl = 'http://127.0.0.1:5000/detalhes';
 
     fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar os dados');
             }
-            console.log(response.json())
             return response.json();
         })
-        .then(data => {
-
-            const stocks = data.stocks;
-
+        .then(stocks => {
+            console.log(stocks);
             stocksList.innerHTML = '';
+
+            // Itera sobre cada ação (stock) retornada pela API
             stocks.forEach(stock => {
                 const row = document.createElement('tr');
                 row.innerHTML = `

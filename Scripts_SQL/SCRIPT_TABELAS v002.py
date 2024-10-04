@@ -10,7 +10,7 @@ def conectar():
             host="127.0.0.1",
             database="paloma_teste",
             user="postgres",
-            password="123"
+            password="aluno"
         )   
         return conn
     except Exception as e:
@@ -87,20 +87,20 @@ def criar_tabelas(conn):
             pativos NUMERIC(20,2),
             pcap_giro NUMERIC(20,2),
             pativ_circ_liq NUMERIC(20,2),
-            div_yield NUMERIC(5,2),
+            div_yield NUMERIC(20,2),
             ev_ebitda NUMERIC(20,2),
             ev_ebit NUMERIC(20,2),
-            cres_rec_5a NUMERIC(5,2),
+            cres_rec_5a NUMERIC(20,2),
             lpa NUMERIC(20,2),
             vpa NUMERIC(20,2),
-            margem_bruta NUMERIC(5,2),
-            margem_ebit NUMERIC(5,2),
-            margem_liquida NUMERIC(5,2),
-            ebit_ativo NUMERIC(5,2),
-            roic NUMERIC(5,2),
-            roe NUMERIC(5,2),
+            margem_bruta NUMERIC(20,2),
+            margem_ebit NUMERIC(20,2),
+            margem_liquida NUMERIC(20,2),
+            ebit_ativo NUMERIC(20,2),
+            roic NUMERIC(20,2),
+            roe NUMERIC(20,2),
             liquidez_corrente NUMERIC(20,2),
-            div_bruta_patrim NUMERIC(5,2),
+            div_bruta_patrim NUMERIC(20,2),
             giro_ativos NUMERIC(20,2),
             ativo NUMERIC(20,2),
             lucro_liquido_12m NUMERIC(20,2),
@@ -236,13 +236,57 @@ def inserir_indicadores(conn, tickers):
 
                 # Inserir os dados de indicadores no banco de dados
                 cur.execute(query, (
-                        acao_id, credito, depositos, result_inter_financ_12m, receita_servicos_12m, result_inter_financ_3m, 
-                        receita_servicos_3m, disponibilidades, ativo_circulante, divida_bruta, divida_liquida, 
-                        receita_liquida_12m, ebit_12m, receita_liquida_3m, ebit_3m, cotacao, min_52_sem, max_52_sem, 
-                        vol_med_2m, valor_de_mercado, valor_da_firma, ult_balanco_processado, nro_acoes, pl, pvp, pebit, psr, 
-                        pativos, pcap_giro, pativ_circ_liq, div_yield, ev_ebitda, ev_ebit, cres_rec_5a, lpa, vpa, margem_bruta, 
-                        margem_ebit, margem_liquida, ebit_ativo, roic, roe, liquidez_corrente, div_bruta_patrim, giro_ativos, 
-                        ativo, lucro_liquido_12m, lucro_liquido_3m, patrim_liq, data_ultima_cotacao, data_atualizacao
+                        acao_id, 
+                        credito, 
+                        depositos, 
+                        result_inter_financ_12m, 
+                        receita_servicos_12m, 
+                        result_inter_financ_3m, 
+                        receita_servicos_3m, 
+                        disponibilidades, 
+                        ativo_circulante, 
+                        divida_bruta, 
+                        divida_liquida, 
+                        receita_liquida_12m, 
+                        ebit_12m, 
+                        receita_liquida_3m, 
+                        ebit_3m, 
+                        cotacao, 
+                        min_52_sem, 
+                        max_52_sem, 
+                        vol_med_2m, 
+                        valor_de_mercado, 
+                        valor_da_firma, 
+                        ult_balanco_processado, 
+                        nro_acoes, 
+                        pl, 
+                        pvp, 
+                        pebit, 
+                        psr, 
+                        pativos, 
+                        pcap_giro, 
+                        pativ_circ_liq, 
+                        div_yield, 
+                        ev_ebitda, 
+                        ev_ebit, 
+                        cres_rec_5a, 
+                        lpa, 
+                        vpa, 
+                        margem_bruta, 
+                        margem_ebit, 
+                        margem_liquida, 
+                        ebit_ativo, 
+                        roic, 
+                        roe, 
+                        liquidez_corrente, 
+                        div_bruta_patrim, 
+                        giro_ativos, 
+                        ativo, 
+                        lucro_liquido_12m, 
+                        lucro_liquido_3m, 
+                        patrim_liq, 
+                        data_ultima_cotacao, 
+                        data_atualizacao
                 ))
 
         # Commit para salvar as alterações no banco
@@ -264,7 +308,7 @@ def main():
         criar_tabelas(conn)
 
         # Lista de tickers para buscar os dados
-        tickers = ('BBDC3', 'BBDC4', 'VALE3')
+        tickers = ('BBDC3', 'VALE3', 'KLBN4', 'ITSA4', 'BRBI11', 'BLAU3', 'CLSC3','TRPL4','BBAS3','CMIG4','FESA4','SLCE3')
 
         # Inserir dados das ações e indicadores
         inserir_indicadores(conn, tickers)

@@ -4,4 +4,6 @@ fundamentus
 pandas==1.5.3   
 numpy==1.23.5
 SQLAlchemy==1.4.44
-psycopg2==2.9.3   
+psycopg2-binary
+flask-cors
+   

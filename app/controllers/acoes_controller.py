@@ -16,4 +16,11 @@ class AcoesController:
         listaTodosIndicadores = model.listAllIndicadores()
 
         return listaTodosIndicadores
+    
+    def getAcao(self, pTicker):
+        model = mAcoes.acao
+
+        acao = model.getCamposAcao(pTicker)
+
+        return acao
      

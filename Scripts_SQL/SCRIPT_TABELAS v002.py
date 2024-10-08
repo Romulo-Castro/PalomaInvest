@@ -10,7 +10,7 @@ def conectar():
             host="127.0.0.1",
             database="paloma_teste",
             user="postgres",
-            password="aluno"
+            password="123"
         )   
         return conn
     except Exception as e:

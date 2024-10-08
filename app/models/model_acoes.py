@@ -4,19 +4,19 @@ import json
 class indicadores:
 
     def listAcoesDisponiveis():
-        try:
-            conexao = conectarBanco.retornaConexaoBanco()
-            cursor = conexao.cursor()
-            
-            cursor.execute("""
-                SELECT 
-                    A.CODIGO 
-                FROM 
-                    ACOES AS A
-            """)  
+        
 
-        except Exception as e:
-            print(f"Erro ao executar a consulta: {e}")                      
+        conexao = conectarBanco.retornaConexaoBanco()
+
+
+        cursor = conexao.cursor()
+        
+        cursor.execute("""
+            SELECT 
+                A.CODIGO 
+            FROM 
+                ACOES AS A
+        """)               
         
         colunas = [desc[0] for desc in cursor.description]
         

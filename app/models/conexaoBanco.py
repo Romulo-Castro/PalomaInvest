@@ -13,4 +13,4 @@ class conectarBanco:
             return connection
         
         except Exception as e:
-            return e
+            raise Exception(f"Erro ao conectar com o banco de dados: {e}")

@@ -9,16 +9,24 @@ class indicadores:
 
         cursor = conexao.cursor()
         
-        cursor.execute("""
-            SELECT 
-                A.CODIGO 
-            FROM 
-                ACOES AS A
-        """)               
-        
-        colunas = [desc[0] for desc in cursor.description]
+        try:
+            cursor.execute("""
+                SELECT 
+                    A.CODIGO 
+                FROM 
+                    ACOES AS A
+            """)             
+        except Exception as e:
+            raise Exception(f"Tabela não existe no banco: {e}")
         
         resultados = cursor.fetchall()
+        
+        # se select vazio -> early return JSON vazio
+        if not resultados:
+            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
+            
+        colunas = [desc[0] for desc in cursor.description]
+        
         acoes = [dict(zip(colunas, row)) for row in resultados]
             
         cursor.close()
@@ -36,20 +44,28 @@ class indicadores:
         conexao = conectarBanco.retornaConexaoBanco()
         cursor = conexao.cursor()
         
-        cursor.execute("""
-            SELECT A.*, I.* 
-            FROM 
-                ACOES AS A
-            INNER JOIN 
-                INDICADORES AS I 
-            ON 
-                A.ID = I.ACAO_ID
-        """)
+        try: 
+            cursor.execute("""
+                SELECT A.*, I.* 
+                FROM 
+                    ACOES AS A
+                INNER JOIN 
+                    INDICADORES AS I 
+                ON 
+                    A.ID = I.ACAO_ID
+            """)
+        except Exception as e:
+            raise Exception(f"Tabela não existe no banco: {e}")        
 
+        resultados = cursor.fetchall()
+        
+        # se select vazio -> early return JSON vazio
+        if not resultados:
+            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
+            
         # nomes das colunas
         colunas = [desc[0] for desc in cursor.description]
         
-        resultados = cursor.fetchall()
         indicadores = [dict(zip(colunas, row)) for row in resultados]
             
         cursor.close()
@@ -76,10 +92,19 @@ class acao:
             WHERE 
                 A.CODIGO = %s 
         """                  
-        cursor.execute(sql, (pTicker,))
+        
+        try:
+            cursor.execute(sql, (pTicker,))
+        except Exception as e:
+            raise Exception(f"Tabela não existe no banco: {e}")          
+        
+        resultados = cursor.fetchall()
+        
+        # se select vazio -> early return JSON vazio
+        if not resultados:
+            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
         
         colunas = [desc[0] for desc in cursor.description]
-        resultados = cursor.fetchall()
         
         acao = [dict(zip(colunas, row)) for row in resultados]
         

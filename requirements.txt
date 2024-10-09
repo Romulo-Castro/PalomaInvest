@@ -1,10 +1,7 @@
-Flask==2.1.1                # Framework para o backend (ou FastAPI, se preferir)
-fundamentus       # Biblioteca para acessar dados financeiros
-pandas==1.5.3               # Manipulação de dados financeiros
-numpy==1.23.5               # Cálculos numéricos e financeiros
-scikit-learn==1.1.2         # Algoritmos de machine learning para previsões
-tensorflow==2.9.0           # Biblioteca para IA generativa (ou PyTorch, se preferir)
-SQLAlchemy==1.4.44          # ORM para interagir com PostgreSQL
-psycopg2-binary==2.9.3             # Driver PostgreSQL para Python
-matplotlib==3.6.1           # Visualização de dados financeiros e gráficos
-docker==5.0.3               # Gerenciamento de containers Docker via Python
+Flask==2.1.1                  # Framework para o backend (ou FastAPI, se preferir)
+fundamentus                   # Biblioteca para acessar dados financeiros
+mvc_flask
+flask-cors
+pandas==1.5.3                # Manipulação de dados financeiros
+numpy==1.23.5              # Cálculos numéricos e financeiros
+psycopg2-binary==2.9.3 # Driver PostgreSQL para Python

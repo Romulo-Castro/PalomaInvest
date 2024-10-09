@@ -20,7 +20,8 @@ class AcoesController:
     def getAcao(self, pTicker):
         model = mAcoes.acao
 
-        acao = model.getCamposAcao(pTicker)
+        params = pTicker.upper()
+        acao = model.getCamposAcao(params)
 
         return acao
      

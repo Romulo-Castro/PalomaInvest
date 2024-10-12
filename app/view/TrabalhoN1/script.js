@@ -28,6 +28,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     <td>${stock.patrim_liq}</td>
                     <td>${stock.valor_de_mercado}</td>
                     <td>${stock.data_ultima_cotacao}</td>
+                    <td>${stock.receita_liquida_12m}</td>
+                    <td>${stock.divida_liquida}</td>
+                    <td>${stock.valor_de_mercado}</td>
+                    <td>${stock.lucro_liquido_12m}</td>
+                    <td>${stock.patrim_liq}</td>
+                    <td>${stock.min_52_sem}</td>
+                    <td>${stock.max_52_sem}</td>
+                    <td>${stock.ebit_12m}</td>
+                    <td>${stock.data_ultima_cotacao}</td>
+                   
                 `;
                 stocksList.appendChild(row);
             });

@@ -21,13 +21,14 @@ class indicadores:
 
     def listAllIndicadores():
         sql = """
-            SELECT A.*, I.* 
+            SELECT DISTINCT ON (A.ID) A.*, I.*
             FROM 
                 ACOES AS A
             INNER JOIN 
                 INDICADORES AS I 
             ON 
                 A.ID = I.ACAO_ID
+            ORDER BY A.ID, I.DATA_ULTIMA_COTACAO DESC
         """
         resultados = consultaBanco.executaSql(sql)
 

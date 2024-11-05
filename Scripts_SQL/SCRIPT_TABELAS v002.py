@@ -2,6 +2,7 @@ import fundamentus
 import psycopg2
 from datetime import datetime
 import numpy as np
+import requests_cache
 
 # Função para conectar ao banco de dados PostgreSQL
 def conectar():
@@ -300,6 +301,8 @@ def inserir_indicadores(conn, tickers):
 
 # Função principal
 def main():
+    requests_cache.clear()  # limpa o cache ao iniciar o script
+    
     # Conectar ao banco de dados
     conn = conectar()
     

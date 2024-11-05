@@ -1,7 +1,7 @@
-Flask==2.1.1                  # Framework para o backend (ou FastAPI, se preferir)
+Flask                  # Framework para o backend (ou FastAPI, se preferir)
 fundamentus                   # Biblioteca para acessar dados financeiros
 mvc_flask
 flask-cors
-pandas==1.5.3                # Manipulação de dados financeiros
-numpy==1.23.5              # Cálculos numéricos e financeiros
-psycopg2-binary==2.9.3 # Driver PostgreSQL para Python
+pandas                # Manipulação de dados financeiros
+numpy            # Cálculos numéricos e financeiros
+psycopg2-binary # Driver PostgreSQL para Python

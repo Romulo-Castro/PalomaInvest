@@ -3,25 +3,18 @@ from app.models import model_acoes as mAcoes
 class AcoesController:
    
     def home(self):
-        model = mAcoes.indicadores
-
-        listaCodigoAcoesDisponiveis = model.listAcoesDisponiveis()
-        
+        listaCodigoAcoesDisponiveis = mAcoes.obterAcoesDisponiveis()        
         return listaCodigoAcoesDisponiveis
 
     
     def listAllAcoesIndicadores(self):
-        model = mAcoes.indicadores
-
-        listaTodosIndicadores = model.listAllIndicadores()
-
+        listaTodosIndicadores = mAcoes.obterTodosIndicadores()
         return listaTodosIndicadores
     
     def getAcao(self, pTicker):
-        model = mAcoes.acao
-
-        params = pTicker.upper()
-        acao = model.getCamposAcao(params)
-
+        acao = mAcoes.obterCamposAcao(pTicker.upper())
         return acao
      
+    def getAcaoDetalhes(self, pTicker):
+        acaoDetalhes = mAcoes.obterAcoesDetalhes(pTicker.upper())
+        return acaoDetalhes        

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
             stocks.forEach(stock => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${stock.codigo}</td>
+                    <td><a href="../detalhes/detalhes.html?codigo=${stock.codigo}">${stock.codigo}</a></td>
                     <td>${stock.nome_empresa}</td>
                     <td>${stock.setor}</td>
                     <td>${stock.tipo}</td>

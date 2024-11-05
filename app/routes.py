@@ -2,8 +2,8 @@ from mvc_flask import Router
 
 Router.get('/', 'acoes#home')
 Router.get('/detalhes', 'acoes#listAllAcoesIndicadores')
-Router.get('/acoes/<pTicker>', 'acoes#getAcao')
-Router.get('/acoes/detalhes/<pTicker>', 'acoes#getAcaoDetalhes')
+Router.get('/acoes', 'acoes#getAcao')
+Router.get('/acoes/detalhes', 'acoes#getAcaoDetalhes')
 
 """
 Router.all("messages")

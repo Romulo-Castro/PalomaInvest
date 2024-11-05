@@ -42,17 +42,12 @@ class acao:
 
     def getCamposAcao(pTicker):
         sql = """
-            SELECT A.*, I.* 
+            SELECT 
+                A.* 
             FROM 
                 ACOES AS A
-            INNER JOIN 
-                INDICADORES AS I 
-            ON 
-                A.ID = I.ACAO_ID
             WHERE 
                 A.CODIGO = %s
-            ORDER BY I.DATA_ATUALIZACAO DESC
-                LIMIT 1
         """
         resultados = consultaBanco.executaSql(sql, (pTicker,))
 
@@ -72,7 +67,9 @@ class acao:
             ON 
                 A.ID = I.ACAO_ID
             WHERE 
-                A.CODIGO = %s                
+                A.CODIGO = %s
+            ORDER BY I.DATA_ATUALIZACAO DESC
+                LIMIT 1               
         """
         resultados = consultaBanco.executaSql(sql, (pTicker,))
         

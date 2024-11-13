@@ -1,5 +1,55 @@
 from app.models.conexaoBanco import consultaBanco
 import json
+import yfinance as yf
+import pandas as pd
+
+def _to_json(data):
+    if not data:
+            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
+    else: return json.dumps(data, default=str, indent=4, ensure_ascii=False)
+
+class indicadoresHistoricos:
+
+    def __init__(self, ticker):
+        self.ticker = ticker + ".SA"  # Adicionando o sufixo ".SA" para ações BR
+
+    def get_indicador_historico(self, indicador):
+        if indicador == 'cotacao':
+            return self.get_cotacao_historica()
+        elif indicador == 'pvp':
+            return self.get_pvpa_historico()
+        else:
+            return {"erro": "Indicador não encontrado"}
+
+    def get_cotacao_historica(self):
+        acao = yf.Ticker(self.ticker)
+        historico_precos = acao.history(period="1y")  # Cotação Histórica de 1 ano
+        cotacao_historica = historico_precos['Close']
+
+        # Converter a série para uma lista de dicionários com a data como string
+        cotacao_historica_lista = [{"data": date.strftime('%Y-%m-%d'), "preco_fechamento": valor} 
+                                   for date, valor in cotacao_historica.items()]
+        
+        # Retorna a lista como JSON
+        return _to_json(cotacao_historica_lista)
+
+    def get_pvpa_historico(self):
+        acao = yf.Ticker(self.ticker)
+        cotacao_historica_json = self.get_cotacao_historica()
+        cotacao_historica = json.loads(cotacao_historica_json)  # Converte para lista de dicionários
+
+        valor_patrimonial_por_acao = acao.info.get('bookValue')  # Valor patrimonial por ação
+
+        if valor_patrimonial_por_acao:
+            pvpa_historico = [{
+                "data": item['data'],
+                "pvpa": item['preco_fechamento'] / valor_patrimonial_por_acao
+            } for item in cotacao_historica]
+
+            return _to_json(pvpa_historico)
+        else:
+            return {"erro": "Valor patrimonial por ação não disponível"}
+
 
 class indicadores:
 
@@ -12,12 +62,8 @@ class indicadores:
         """
         resultados = consultaBanco.executaSql(sql)
 
-        if not resultados:
-            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
-
         # Converte para JSON
-        acoes_json = json.dumps(resultados, default=str, indent=4, ensure_ascii=False)
-        return acoes_json       
+        return _to_json(resultados)
 
     def listAllIndicadores():
         sql = """
@@ -32,11 +78,8 @@ class indicadores:
         """
         resultados = consultaBanco.executaSql(sql)
 
-        if not resultados:
-            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
-
-        indicadores_json = json.dumps(resultados, default=str, indent=4, ensure_ascii=False)
-        return indicadores_json
+        return _to_json(resultados)
+    
 
 class acao:
 
@@ -51,11 +94,7 @@ class acao:
         """
         resultados = consultaBanco.executaSql(sql, (pTicker,))
 
-        if not resultados:
-            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
-
-        acao_json = json.dumps(resultados, default=str, indent=4, ensure_ascii=False)
-        return acao_json
+        return _to_json(resultados)
     
     def getAcoesDetalhes(pTicker):
         sql = """
@@ -73,17 +112,19 @@ class acao:
         """
         resultados = consultaBanco.executaSql(sql, (pTicker,))
         
-        if not resultados:
-            return json.dumps({"status": "error", "message": "Nenhum dado encontrado."})
-
-        acaoDetalhes_json = json.dumps(resultados, default=str, indent=4, ensure_ascii=False)
-        return acaoDetalhes_json     
+        return _to_json(resultados)    
     
 def obterAcoesDisponiveis():
     return indicadores.listAcoesDisponiveis()
 
 def obterTodosIndicadores():
     return indicadores.listAllIndicadores()
+
+def obterCotacaoHistorica(pTicker):
+    return indicadoresHistoricos.getCotacaoHistorica(pTicker)
+
+def obterIndicadorHistorico(pTicker, pIndicador):
+    return indicadoresHistoricos.getIndicadoresHistoricos(pTicker, pIndicador)
 
 def obterCamposAcao(pTicker):
     return acao.getCamposAcao(pTicker)

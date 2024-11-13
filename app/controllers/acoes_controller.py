@@ -29,3 +29,22 @@ class AcoesController:
             return acaoDetalhes
         else:
             return json.dumps({"status": "error", "message": "Ticker não especificado."})      
+        
+    def getCotacaoHistorica(self):
+        pTicker = request.args.get('codigo')
+
+        if pTicker:
+            acaoDetalhes = mAcoes.obterCotacaoHistorica(pTicker.upper())
+            return acaoDetalhes
+        else:
+            return json.dumps({"status": "error", "message": "Ticker não especificado."})      
+
+    def getPvpaHistorico(self):
+        pTicker = request.args.get('codigo')
+        pIndicador = request.args.get('ind')
+
+        if pTicker:
+            acaoDetalhes = mAcoes.obterIndicadorHistorico(pTicker.upper(), pIndicador.lower())
+            return acaoDetalhes
+        else:
+            return json.dumps({"status": "error", "message": "Ticker não especificado."})                      

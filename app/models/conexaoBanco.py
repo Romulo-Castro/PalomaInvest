@@ -8,8 +8,8 @@ class conectarBanco:
                 host="127.0.0.1",
                 database="paloma_teste",
                 user="postgres",
-                password="123"
-                #password="aluno"                
+                #password="123"
+                password="postgres"                
             )   
             return connection
         

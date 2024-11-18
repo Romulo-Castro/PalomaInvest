@@ -10,18 +10,19 @@ def _to_json(data):
 
 class indicadoresHistoricos:
 
-    def __init__(self, ticker):
+    def __init__(self, ticker, indicador):
         self.ticker = ticker + ".SA"  # Adicionando o sufixo ".SA" para ações BR
+        self.indicador = indicador
 
-    def get_indicador_historico(self, indicador):
-        if indicador == 'cotacao':
-            return self.get_cotacao_historica()
-        elif indicador == 'pvp':
-            return self.get_pvpa_historico()
+    def getIndicadoresHistoricos(self):
+        if self.indicador == 'cot':
+            return self.getCotacaoHistorica()
+        elif self.indicador == 'pvp':
+            return self.getPvpaHistorico()
         else:
             return {"erro": "Indicador não encontrado"}
 
-    def get_cotacao_historica(self):
+    def getCotacaoHistorica(self):
         acao = yf.Ticker(self.ticker)
         historico_precos = acao.history(period="1y")  # Cotação Histórica de 1 ano
         cotacao_historica = historico_precos['Close']
@@ -33,9 +34,9 @@ class indicadoresHistoricos:
         # Retorna a lista como JSON
         return _to_json(cotacao_historica_lista)
 
-    def get_pvpa_historico(self):
+    def getPvpaHistorico(self):
         acao = yf.Ticker(self.ticker)
-        cotacao_historica_json = self.get_cotacao_historica()
+        cotacao_historica_json = self.getCotacaoHistorica()
         cotacao_historica = json.loads(cotacao_historica_json)  # Converte para lista de dicionários
 
         valor_patrimonial_por_acao = acao.info.get('bookValue')  # Valor patrimonial por ação
@@ -120,11 +121,9 @@ def obterAcoesDisponiveis():
 def obterTodosIndicadores():
     return indicadores.listAllIndicadores()
 
-def obterCotacaoHistorica(pTicker):
-    return indicadoresHistoricos.getCotacaoHistorica(pTicker)
-
 def obterIndicadorHistorico(pTicker, pIndicador):
-    return indicadoresHistoricos.getIndicadoresHistoricos(pTicker, pIndicador)
+    indicadores = indicadoresHistoricos(pTicker, pIndicador) 
+    return indicadores.getIndicadoresHistoricos()
 
 def obterCamposAcao(pTicker):
     return acao.getCamposAcao(pTicker)

@@ -19,7 +19,7 @@ class AcoesController:
             acao = mAcoes.obterCamposAcao(pTicker.upper())
             return acao
         else:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."})
+            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)
      
     def getAcaoDetalhes(self):
         pTicker = request.args.get('codigo')
@@ -28,7 +28,7 @@ class AcoesController:
             acaoDetalhes = mAcoes.obterAcoesDetalhes(pTicker.upper())
             return acaoDetalhes
         else:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."})      
+            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)      
         
     def getCotacaoHistorica(self):
         pTicker = request.args.get('codigo')
@@ -37,14 +37,16 @@ class AcoesController:
             acaoDetalhes = mAcoes.obterCotacaoHistorica(pTicker.upper())
             return acaoDetalhes
         else:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."})      
+            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)      
 
-    def getPvpaHistorico(self):
+    def getIndicadorHistorico(self):
         pTicker = request.args.get('codigo')
         pIndicador = request.args.get('ind')
 
-        if pTicker:
+        if pTicker and pIndicador:
             acaoDetalhes = mAcoes.obterIndicadorHistorico(pTicker.upper(), pIndicador.lower())
             return acaoDetalhes
-        else:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."})                      
+        elif not pTicker:
+            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)
+        elif not pIndicador:
+            return json.dumps({"status": "error", "message": "Indicador não especificado."}, ensure_ascii=False)

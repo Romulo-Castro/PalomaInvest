@@ -6,3 +6,4 @@ pandas                # Manipulação de dados financeiros
 numpy            # Cálculos numéricos e financeiros
 psycopg2-binary # Driver PostgreSQL para Python
 yfinance
+google.generativeai 

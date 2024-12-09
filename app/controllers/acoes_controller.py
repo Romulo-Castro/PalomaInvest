@@ -1,6 +1,6 @@
 from app.models import model_acoes as mAcoes
 from flask import request
-import json
+from app.utils.jsonUtils import to_json, ErrorMessages as em
 
 class AcoesController:
    
@@ -17,27 +17,27 @@ class AcoesController:
         
         if pTicker:
             acao = mAcoes.obterCamposAcao(pTicker.upper())
-            return acao
+            return to_json(acao, em.NO_DATA_FOUND.value)
         else:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)
+            return to_json(None, em.INVALID_TICKER.value)
      
     def getAcaoDetalhes(self):
         pTicker = request.args.get('codigo')
 
         if pTicker:
             acaoDetalhes = mAcoes.obterAcoesDetalhes(pTicker.upper())
-            return acaoDetalhes
+            return to_json(acaoDetalhes, em.NO_DATA_FOUND.value)
         else:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)      
+            return to_json(None, em.INVALID_TICKER.value)      
         
     def getCotacaoHistorica(self):
         pTicker = request.args.get('codigo')
 
         if pTicker:
             acaoDetalhes = mAcoes.obterCotacaoHistorica(pTicker.upper())
-            return acaoDetalhes
+            return to_json(acaoDetalhes, em.NO_DATA_FOUND.value)
         else:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)      
+            return to_json(None, em.INVALID_TICKER.value)      
 
     def getIndicadorHistorico(self):
         pTicker = request.args.get('codigo')
@@ -45,8 +45,8 @@ class AcoesController:
 
         if pTicker and pIndicador:
             acaoDetalhes = mAcoes.obterIndicadorHistorico(pTicker.upper(), pIndicador.lower())
-            return acaoDetalhes
+            return to_json(acaoDetalhes, em.NO_DATA_FOUND.value)
         elif not pTicker:
-            return json.dumps({"status": "error", "message": "Ticker não especificado."}, ensure_ascii=False)
+            return to_json(None, em.INVALID_TICKER.value)
         elif not pIndicador:
-            return json.dumps({"status": "error", "message": "Indicador não especificado."}, ensure_ascii=False)
+            return to_json(None, "Indicador não especificado.")

@@ -4,8 +4,11 @@ Router.get('/', 'acoes#home')
 Router.get('/detalhes', 'acoes#listAllAcoesIndicadores')
 Router.get('/acoes', 'acoes#getAcao')
 Router.get('/acoes/detalhes', 'acoes#getAcaoDetalhes')
-Router.get('/acoes/historico', 'acoes#getIndicadorHistorico')
-Router.get('/gerarteste', 'ai#getTese')
+
+api = Router.namespace("/api")
+
+api.get('/acoes/historico', 'acoes#getIndicadorHistorico')
+api.post('/gerarTese', 'ai#getTese')
 
 """
 Router.all("messages")

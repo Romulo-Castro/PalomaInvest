@@ -20,7 +20,16 @@ def conectar():
         return None
     
 def get_valor(df, campo, default=None):
-    valor = df.get(campo, [default])[0]
+    
+    try:
+        valor = df[campo].iloc[0]  # Tenta pegar o valor do campo
+    except:
+        return default  # Se o campo não existir, atribui None
+
+    # valor = df.get(campo, [default])[0]  
+
+    if campo in ('PL','PVP','LPA','VPA'):
+        valor = (int(valor)/100)
     
     if isinstance(valor, str) and '%' in valor:
         # Remove o símbolo '%' e converte para float, se for um valor percentual
@@ -35,6 +44,8 @@ def get_valor(df, campo, default=None):
     # Verifica se o valor é um tipo numpy (int64 ou float64) e converte para um tipo nativo do Python
     if isinstance(valor, (np.int64, np.float64)):
         return valor.item()  # Converte para int ou float nativo
+    
+    print(f"{valor} : {campo}, '------------------------------------------------------------------")    
     
     return valor
 
@@ -159,11 +170,11 @@ def inserir_indicadores(conn, tickers):
         # Iterar sobre os tickers fornecidos
         for ticker in tickers:
             df = fundamentus.get_papel(ticker)
-            
+
             # Extrair dados da ação
-            nome_empresa = df['Empresa'].iloc[0]
-            setor = df['Setor'].iloc[0]
-            tipo = df['Tipo'].iloc[0]
+            nome_empresa = get_valor(df,'Empresa')
+            setor = get_valor(df,'Setor')
+            tipo = get_valor(df,'Tipo')
             
             # Verificar e inserir a ação na tabela 'acoes', caso não exista
             acao_id = inserir_acao(conn, ticker, nome_empresa, setor, tipo)
@@ -312,7 +323,7 @@ def main():
         criar_tabelas(conn)
 
         # Lista de tickers para buscar os dados
-        tickers = ('BBDC3', 'VALE3', 'KLBN4', 'ITSA4', 'BRBI11', 'BLAU3', 'CLSC3','TRPL4','BBAS3','CMIG4','FESA4','SLCE3')
+        tickers = ('BBDC3', 'VALE3', 'KLBN4', 'ITSA4', 'BRBI11', 'BLAU3', 'CLSC3','BBAS3','CMIG4','FESA4','SLCE3')
 
         # Inserir dados das ações e indicadores
         inserir_indicadores(conn, tickers)

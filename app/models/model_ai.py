@@ -33,9 +33,7 @@ class AiService:
                 O que torna essa ação uma oportunidade (ou não) para investidores?
 
             Nota: O texto gerado deve ser claro, objetivo e estruturado para que qualquer investidor iniciante ou educador possa compreender facilmente.                    
-            
-            Além disso, faça o cálculo do valor Intrínseco de Graham (Raiz Quadrada de ((PL * PVP) * LPA * VPA)) e plote no final da resposta.
-        """
+            """
 
     def calculaValorIntrinseco(self, dadosUsuario, dadosTese):
         lpa = dadosTese['lpa']
@@ -43,12 +41,14 @@ class AiService:
 
         if dadosUsuario:
             constanteGraham = (dadosUsuario['pl'] * dadosUsuario['pvp'])
-            vi = math.sqrt(constanteGraham * float(lpa) * float(vpa))  # Converte para float
-            return vi
+            vi = math.sqrt(float(constanteGraham) * float(lpa) * float(vpa))  # Converte para float
+            return '√(P/L: {pl} * P/VP: {pvp}) * LPA: {lpa} * VPA: {vpa} = R$ {vi:.2f}'.format(
+                pl=dadosUsuario['pl'], pvp=dadosUsuario['pvp'], lpa=lpa, vpa=vpa, vi=vi)
 
         constanteGraham = (dadosTese['pl'] * dadosTese['pvp'])
-        vi = math.sqrt(constanteGraham * float(lpa) * float(vpa))  # Converte para float
-        return vi
+        vi = math.sqrt(float(constanteGraham) * float(lpa) * float(vpa))  # Converte para float
+        return '√(P/L: {pl} * P/VP: {pvp}) * LPA: {lpa} * VPA: {vpa} = R$ {vi:.2f}'.format(
+            pl=dadosTese['pl'], pvp=dadosTese['pvp'], lpa=lpa, vpa=vpa, vi=vi)  
 
 
     def obterDadosFinanceiros(self):
@@ -83,13 +83,12 @@ class AiService:
 
         return dados_filtrados
 
-        
-
 class AI:
     def __init__(self, ticker):
         self.service = AiService(ticker)      
     
     def gerarTese(self, dadosUsuario):
+
         dadosTese = self.service.filtrarIndicadoresTese()
 
         dados_formatados = "\n".join(
@@ -103,12 +102,11 @@ class AI:
             dados=dados_formatados
         )   
 
-        valorIntinseco = self.service.calculaValorIntrinseco(dadosUsuario, dadosTese)
-
-        # Gera texto com o modelo Gemini
+        valorIntrinseco = self.service.calculaValorIntrinseco(dadosUsuario, dadosTese)
+    
         try:
             resposta = self.service.model.generate_content(texto_padrao)
-            return to_json({"vi": valorIntinseco,"tese": resposta.text, "dados": dadosTese, "prompt": texto_padrao})
+            return to_json({"vi": valorIntrinseco,"tese": resposta.text, "dados": dadosTese, "prompt": texto_padrao})
         except Exception as e:
             return to_json({"status": "error", "message": em.AI_GENERATION_ERROR.value.format(e)})
 
